@@ -1,0 +1,6 @@
+[package]
+
+name = "crypto_challenge"
+version = "0.0.1"
+authors = ["Elliot Snow-Kropla <esnowkropla@gmail.com>"]
+
