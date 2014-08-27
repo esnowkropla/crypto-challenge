@@ -2,6 +2,7 @@ extern crate num;
 
 use num::bigint::{ToBigUint, BigUint};
 use std::num::{from_str_radix};
+use std::fmt::radix;
 
 pub fn num_to_base64(num: u8) -> String {
     match num {
@@ -86,8 +87,34 @@ pub fn big_to_base64(big : BigUint) -> String {
     return out.as_slice().chars().rev().collect();
 }
 
+pub fn unhex(x: &str) -> BigUint {
+    match from_str_radix(x, 16) {
+        Some(text) => text,
+        None => fail!("Couldn't unhex")
+    }
+}
+
+pub fn hex(big: BigUint) -> String {
+    let mut x = big;
+    let mut out = String::from_str("");
+
+    while x > 0u.to_biguint().unwrap() {
+        let chr : u8 = x.rem(&16u.to_biguint().unwrap()).to_u8().unwrap();
+        out.push_str( format!("{}", radix(chr, 16)).as_slice() );
+        x = x >> 4;
+    }
+
+    return out.as_slice().chars().rev().collect();
+}
+
 #[test]
 fn test_hex_to_base64() {
-    let x : Option<BigUint> = from_str_radix("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d", 16);
-    assert!(big_to_base64(x.unwrap()) == "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t".to_string());
+    let x = unhex("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d");
+    assert!(big_to_base64(x) == "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t".to_string());
+}
+
+#[test]
+fn test_hex_unhex() {
+    let x = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
+    assert!(hex(unhex(x.as_slice())).as_slice() == x);
 }
