@@ -1,22 +1,12 @@
 extern crate num;
 extern crate crypto;
 
-use num::bigint::BigUint;
-use crypto::{hex, unhex};
+use crypto::{Buffer};
 
 fn main() {
-    let plainhex = "1c0111001f010100061a024b53535009181c";
-    let plaintext = unhex(plainhex);
+    let cipherhex = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
 
-    let keyhex = "686974207468652062756c6c277320657965";
-    let key = unhex(keyhex);
-
-    let cipher : BigUint = plaintext ^ key;
-
-    println!("{}\n{}\n{}", plaintext, key, hex(cipher));
-
-    let x : u8 = 255;
-    let y : u8 = 4;
-
-    println!("{:08t}\n{:08t}\n{:08t}",x, y,  x ^ y);
+    let buf = Buffer::unhex(cipherhex);
+    println!("{}\n{}\n{}", buf ,buf.hex(), buf.base64());
+    println!("{}", buf.utf8());
 }

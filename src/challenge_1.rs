@@ -1,6 +1,6 @@
 use num::bigint::{ToBigUint, BigUint};
 #[cfg(test)]
-use unhex;
+use Buffer;
 
 pub fn num_to_base64(num: u8) -> String {
     match num {
@@ -87,6 +87,6 @@ pub fn big_to_base64(big : BigUint) -> String {
 
 #[test]
 fn test_hex_to_base64() {
-    let x = unhex("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d");
-    assert!(big_to_base64(x) == "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t".to_string());
+    let x = Buffer::unhex("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d");
+    assert!(x.base64() == "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t".to_string());
 }
