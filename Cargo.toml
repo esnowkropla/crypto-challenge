@@ -6,3 +6,11 @@ authors = ["Elliot Snow-Kropla <esnowkropla@gmail.com>"]
 
 [lib]
 name = "crypto"
+
+[[bin]]
+name = "crypto_challenge"
+path = "src/main.rs"
+
+[[bin]]
+name = "challenge_1"
+path = "src/bin/challenge_1.rs"
