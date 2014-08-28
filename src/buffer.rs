@@ -61,8 +61,13 @@ impl fmt::Show for Buffer {
     }
 }
 
-/*
 impl BitXor<Buffer, Buffer> for Buffer {
     fn bitxor(&self, rhs: &Buffer) -> Buffer {
-        let mut buf = self.clone();
-*/
+        assert_eq!(self.contents.len(), rhs.contents.len());
+        let mut buf = Buffer::new(self.contents.len());
+        for (i, v) in self.contents.iter().enumerate() {
+            *buf.contents.get_mut(i) = self.contents[i] ^ rhs.contents[i];
+        }
+        return buf;
+    }
+}

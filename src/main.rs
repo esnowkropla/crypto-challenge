@@ -4,9 +4,8 @@ extern crate crypto;
 use crypto::{Buffer};
 
 fn main() {
-    let cipherhex = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d";
+    let buf1 = Buffer::unhex("1c0111001f010100061a024b53535009181c");
+    let buf2 = Buffer::unhex("686974207468652062756c6c277320657965");
 
-    let buf = Buffer::unhex(cipherhex);
-    println!("{}\n{}\n{}", buf ,buf.hex(), buf.base64());
-    println!("{}", buf.utf8());
+    println!("{}\n{}", (buf1 ^ buf2).utf8(), buf2.utf8());
 }
