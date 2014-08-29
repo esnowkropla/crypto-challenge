@@ -8,14 +8,17 @@ use big_to_base64;
 ///Struct storing the buffer we're working with in LSB
 #[deriving(Clone)]
 pub struct Buffer {
-    contents : Vec<u8>,
+    pub contents : Vec<u8>,
 }
 
 impl Buffer {
     pub fn new(n: uint) -> Buffer {
-        Buffer{contents: Vec::from_elem(n, 0u8)}
+        Buffer::from_elem(n, 0u8)
     }
 
+    pub fn from_elem(n: uint, elem: u8) -> Buffer {
+        Buffer{contents: Vec::from_elem(n, elem)}
+    }
     pub fn unhex(s: &str) -> Buffer {
         let n = if s.len()%2 == 1 {(s.len()+1)/2} else {s.len()/2};//Get right num of bytes
         let mut buf = Buffer::new(n);
