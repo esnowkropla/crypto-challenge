@@ -19,6 +19,11 @@ impl Buffer {
     pub fn from_elem(n: uint, elem: u8) -> Buffer {
         Buffer{contents: Vec::from_elem(n, elem)}
     }
+
+    pub fn len(&self) -> uint {
+        self.contents.len()
+    }
+
     pub fn unhex(s: &str) -> Buffer {
         let n = if s.len()%2 == 1 {(s.len()+1)/2} else {s.len()/2};//Get right num of bytes
         let mut buf = Buffer::new(n);
