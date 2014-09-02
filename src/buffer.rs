@@ -7,26 +7,26 @@ use big_to_base64;
 
 ///Struct storing the buffer we're working with in LSB
 #[deriving(Clone)]
-pub struct Buffer {
+pub struct Buff {
     pub contents : Vec<u8>,
 }
 
-impl Buffer {
-    pub fn new(n: uint) -> Buffer {
-        Buffer::from_elem(n, 0u8)
+impl Buff {
+    pub fn new(n: uint) -> Buff {
+        Buff::from_elem(n, 0u8)
     }
 
-    pub fn from_elem(n: uint, elem: u8) -> Buffer {
-        Buffer{contents: Vec::from_elem(n, elem)}
+    pub fn from_elem(n: uint, elem: u8) -> Buff {
+        Buff{contents: Vec::from_elem(n, elem)}
     }
 
     pub fn len(&self) -> uint {
         self.contents.len()
     }
 
-    pub fn unhex(s: &str) -> Buffer {
+    pub fn unhex(s: &str) -> Buff {
         let n = if s.len()%2 == 1 {(s.len()+1)/2} else {s.len()/2};//Get right num of bytes
-        let mut buf = Buffer::new(n);
+        let mut buf = Buff::new(n);
 
         for (i, chr) in s.chars().rev().enumerate() {
             let num : u8 = chr.to_digit(16).unwrap() as u8;
@@ -55,24 +55,28 @@ impl Buffer {
         return acc;
     }
 
-    pub fn utf8(&self) -> String {
+    pub fn utf8(&self) -> Option<String> {
         let mut out = self.contents.clone();
         out.reverse();
-        return from_utf8(out.as_slice()).unwrap().to_string();
+        let temp = from_utf8(out.as_slice());
+        return match temp {
+            Some(e) => Some(e.to_string()),
+            None => None
+        };
     }
 }
 
-impl fmt::Show for Buffer {
+impl fmt::Show for Buff {
     ///Prints the decimal value of the buffer
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.to_big())
     }
 }
 
-impl BitXor<Buffer, Buffer> for Buffer {
-    fn bitxor(&self, rhs: &Buffer) -> Buffer {
+impl BitXor<Buff, Buff> for Buff {
+    fn bitxor(&self, rhs: &Buff) -> Buff {
         assert_eq!(self.contents.len(), rhs.contents.len());
-        let mut buf = Buffer::new(self.contents.len());
+        let mut buf = Buff::new(self.contents.len());
         for (i, v) in self.contents.iter().enumerate() {
             *buf.contents.get_mut(i) = self.contents[i] ^ rhs.contents[i];
         }
