@@ -1,12 +1,12 @@
 use std::fmt;
 use num::bigint::{BigUint, ToBigUint};
-use std::num::{Zero};
+use std::num::{Zero, ToStrRadix};
 use std::str::from_utf8;
 use std::ops::BitXor;
 use big_to_base64;
 
 ///Struct storing the buffer we're working with in LSB
-#[deriving(Clone)]
+#[deriving(Clone, Eq)]
 pub struct Buff {
     pub contents : Vec<u8>,
 }
@@ -18,6 +18,27 @@ impl Buff {
 
     pub fn from_elem(n: uint, elem: u8) -> Buff {
         Buff{contents: Vec::from_elem(n, elem)}
+    }
+
+    pub fn from_fn(n: uint, op: |uint| -> u8) -> Buff {
+        Buff{contents: Vec::from_fn(n, op)}
+    }
+
+    pub fn from_slice(s: &str) -> Buff {
+        let n = s.len();
+        let mut vec = Vec::from_elem(n, 0u8);
+        for (i, v) in s.chars().enumerate() {
+            *vec.get_mut(n-i-1) = v as u8;
+        }
+        Buff{contents: vec.clone()}
+    }
+
+    pub fn repeat(n: uint, s: &str) -> Buff {
+        let mut buf = Buff::new(n);
+        for (i, v) in s.chars().cycle().take(n).enumerate() {
+            *buf.contents.get_mut(n - i -1) = v as u8;
+        }
+        return buf;
     }
 
     pub fn len(&self) -> uint {
@@ -41,6 +62,10 @@ impl Buff {
             out.push_str( format!("{}", fmt::radix(*byte, 16)).as_slice() );
         }
         return out;
+    }
+
+    pub fn bin(&self) -> String {
+        self.to_big().to_str_radix(2)
     }
 
     pub fn base64(&self) -> String {
@@ -81,5 +106,11 @@ impl BitXor<Buff, Buff> for Buff {
             *buf.contents.get_mut(i) = self.contents[i] ^ rhs.contents[i];
         }
         return buf;
+    }
+}
+
+impl PartialEq for Buff {
+    fn eq(&self, rhs: &Buff) -> bool {
+        self.to_big() == rhs.to_big()
     }
 }

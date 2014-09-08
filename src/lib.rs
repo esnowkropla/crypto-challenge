@@ -2,7 +2,7 @@ extern crate num;
 
 pub use challenge_1::{num_to_base64, big_to_base64};
 pub use buffer::Buff;
-pub use english::{english_dict, lowercase};
+pub use english::{english_dict, lowercase, levenshtein, score_fn, count};
 
 use std::io::{File, BufferedReader, IoError};
 
