@@ -3,12 +3,14 @@ extern crate num;
 pub use challenge_1::{num_to_base64, big_to_base64};
 pub use buffer::Buff;
 pub use english::{english_dict, lowercase, levenshtein, score_fn, count};
+pub use xor_cipher::{single_xor};
 
 use std::io::{File, BufferedReader, IoError};
 
 pub mod challenge_1;
 pub mod buffer;
 pub mod english;
+pub mod xor_cipher;
 
 fn unwrap_and_noline(x: Result<String, IoError>) -> String {
     let mut unwrapped = x.unwrap();

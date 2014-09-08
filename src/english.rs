@@ -100,8 +100,8 @@ pub fn score_fn(to_score: &str) -> uint {
     let mut alpha : Vec<char> = "abcdefghijklmnopqrstuvwxyz ".chars().collect();
     let subject = lowercase(to_score);
     
-    //This section adds non-alphabetic characters to alpha, to penalize strings with lots of
-    //gibberish
+    //This section adds non-alphabetic characters from subject to alpha, to penalize strings 
+    //with lots of gibberish
     for letter in subject.as_slice().chars() {
         if !alpha.contains(&letter) {
             alpha.push(letter);
