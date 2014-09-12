@@ -6,6 +6,8 @@ pub use english::{english_dict, lowercase, levenshtein, score_fn, count};
 pub use xor_cipher::{single_xor};
 
 use std::io::{File, BufferedReader, IoError};
+use std::num::Zero;
+use num::bigint::{ToBigUint};
 
 pub mod challenge_1;
 pub mod buffer;
@@ -27,4 +29,20 @@ pub fn read_file(input: &str) -> Vec<String> {
     };
     let mut reader = BufferedReader::new(file);
     reader.lines().map(unwrap_and_noline).collect()
+}
+
+pub fn hamming(a: &Buff, b: &Buff) -> uint {
+    let mut acc = 0;
+    let mut c = (*a^*b).to_big();
+    let two = 2u.to_biguint().unwrap();
+    while c > Zero::zero() {
+        acc += (c % two).to_uint().unwrap();
+        c = c >> 1;
+    }
+    return acc;
+}
+
+#[test]
+fn test_hamming() {
+    assert_eq!(37, hamming(&Buff::from_slice("this is a test"), &Buff::from_slice("wokka wokka!!!")));
 }
