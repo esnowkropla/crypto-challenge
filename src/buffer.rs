@@ -4,6 +4,7 @@ use std::num::{Zero, ToStrRadix};
 use std::str::from_utf8;
 use std::ops::BitXor;
 use big_to_base64;
+use chunk_to_bytes;
 
 ///Struct storing the buffer we're working with in LSB
 #[deriving(Clone, Eq)]
@@ -11,7 +12,7 @@ pub struct Buff {
     pub contents : Vec<u8>,
 }
 
-impl Buff {
+impl<'a> Buff {
     pub fn new(n: uint) -> Buff {
         Buff::from_elem(n, 0u8)
     }
@@ -31,6 +32,21 @@ impl Buff {
             *vec.get_mut(n-i-1) = v as u8;
         }
         Buff{contents: vec.clone()}
+    }
+
+    pub fn from_base64(s: &str) -> Buff {
+        //Length has to be a multiple of 4 or input was not padded properly
+        assert_eq!(s.len() % 4, 0);
+        let mut out = Vec::new();
+
+        let mut it = s.chars().peekable();
+        while it.peek().is_some() {
+            let chunk : Vec<char> = it.by_ref().take(4).collect();
+            let bytes = chunk_to_bytes(chunk);
+            out.push_all_move(bytes);
+        }
+        out.reverse();
+        return Buff{contents: out};
     }
 
     pub fn repeat(n: uint, s: &str) -> Buff {
@@ -88,6 +104,10 @@ impl Buff {
             Some(e) => Some(e.to_string()),
             None => None
         };
+    }
+
+    pub fn sub_buf(&'a self, a: uint, b: uint) ->  &'a [u8] {
+        self.contents.slice(a,b)
     }
 }
 
