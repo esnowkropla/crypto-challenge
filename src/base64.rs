@@ -3,143 +3,143 @@ use std::num::Zero;
 #[cfg(test)]
 use Buff;
 
-pub fn num_to_base64(num: u8) -> char {
+pub fn u8_to_base64(num: u8) -> Option<char> {
     match num {
-        0 => 'A',
-        1 => 'B',
-        2 => 'C',
-        3 => 'D',
-        4 => 'E',
-        5 => 'F',
-        6 => 'G',
-        7 => 'H',
-        8 => 'I',
-        9 => 'J',
-        10 => 'K',
-        11 => 'L',
-        12 => 'M',
-        13 => 'N',
-        14 => 'O',
-        15 => 'P',
-        16 => 'Q',
-        17 => 'R',
-        18 => 'S',
-        19 => 'T',
-        20 => 'U',
-        21 => 'V',
-        22 => 'W',
-        23 => 'X',
-        24 => 'Y',
-        25 => 'Z',
-        26 => 'a',
-        27 => 'b',
-        28 => 'c',
-        29 => 'd',
-        30 => 'e',
-        31 => 'f',
-        32 => 'g',
-        33 => 'h',
-        34 => 'i',
-        35 => 'j',
-        36 => 'k',
-        37 => 'l',
-        38 => 'm',
-        39 => 'n',
-        40 => 'o',
-        41 => 'p',
-        42 => 'q',
-        43 => 'r',
-        44 => 's',
-        45 => 't',
-        46 => 'u',
-        47 => 'v',
-        48 => 'w',
-        49 => 'x',
-        50 => 'y',
-        51 => 'z',
-        52 => '0',
-        53 => '1',
-        54 => '2',
-        55 => '3',
-        56 => '4',
-        57 => '5',
-        58 => '6',
-        59 => '7',
-        60 => '8',
-        61 => '9',
-        62 => '+',
-        63 => '/',
-        x => fail!("Failed to convert {} into base64", x)
+        0 => Some('A'),
+        1 => Some('B'),
+        2 => Some('C'),
+        3 => Some('D'),
+        4 => Some('E'),
+        5 => Some('F'),
+        6 => Some('G'),
+        7 => Some('H'),
+        8 => Some('I'),
+        9 => Some('J'),
+        10 => Some('K'),
+        11 => Some('L'),
+        12 => Some('M'),
+        13 => Some('N'),
+        14 => Some('O'),
+        15 => Some('P'),
+        16 => Some('Q'),
+        17 => Some('R'),
+        18 => Some('S'),
+        19 => Some('T'),
+        20 => Some('U'),
+        21 => Some('V'),
+        22 => Some('W'),
+        23 => Some('X'),
+        24 => Some('Y'),
+        25 => Some('Z'),
+        26 => Some('a'),
+        27 => Some('b'),
+        28 => Some('c'),
+        29 => Some('d'),
+        30 => Some('e'),
+        31 => Some('f'),
+        32 => Some('g'),
+        33 => Some('h'),
+        34 => Some('i'),
+        35 => Some('j'),
+        36 => Some('k'),
+        37 => Some('l'),
+        38 => Some('m'),
+        39 => Some('n'),
+        40 => Some('o'),
+        41 => Some('p'),
+        42 => Some('q'),
+        43 => Some('r'),
+        44 => Some('s'),
+        45 => Some('t'),
+        46 => Some('u'),
+        47 => Some('v'),
+        48 => Some('w'),
+        49 => Some('x'),
+        50 => Some('y'),
+        51 => Some('z'),
+        52 => Some('0'),
+        53 => Some('1'),
+        54 => Some('2'),
+        55 => Some('3'),
+        56 => Some('4'),
+        57 => Some('5'),
+        58 => Some('6'),
+        59 => Some('7'),
+        60 => Some('8'),
+        61 => Some('9'),
+        62 => Some('+'),
+        63 => Some('/'),
+        _ => None
     }
 }
 
-pub fn base64_to_u8(c: char) -> u8 {
+pub fn base64_to_u8(c: char) -> Option<u8> {
     match c {
-        'A' => 0,
-        'B' => 1,
-        'C' => 2,
-        'D' => 3,
-        'E' => 4,
-        'F' => 5,
-        'G' => 6,
-        'H' => 7,
-        'I' => 8,
-        'J' => 9,
-        'K' => 10,
-        'L' => 11,
-        'M' => 12,
-        'N' => 13,
-        'O' => 14,
-        'P' => 15,
-        'Q' => 16,
-        'R' => 17,
-        'S' => 18,
-        'T' => 19,
-        'U' => 20,
-        'V' => 21,
-        'W' => 22,
-        'X' => 23,
-        'Y' => 24,
-        'Z' => 25,
-        'a' => 26,
-        'b' => 27,
-        'c' => 28,
-        'd' => 29,
-        'e' => 30,
-        'f' => 31,
-        'g' => 32,
-        'h' => 33,
-        'i' => 34,
-        'j' => 35,
-        'k' => 36,
-        'l' => 37,
-        'm' => 38,
-        'n' => 39,
-        'o' => 40,
-        'p' => 41,
-        'q' => 42,
-        'r' => 43,
-        's' => 44,
-        't' => 45,
-        'u' => 46,
-        'v' => 47,
-        'w' => 48,
-        'x' => 49,
-        'y' => 50,
-        'z' => 51,
-        '0' => 52,
-        '1' => 53,
-        '2' => 54,
-        '3' => 55,
-        '4' => 56,
-        '5' => 57,
-        '6' => 58,
-        '7' => 59,
-        '8' => 60,
-        '9' => 61,
-        '+' => 62,
-        '/' => 63,
-        x => fail!("Couldn't convert {} to a number from base64!", x)
+        'A' => Some(0),
+        'B' => Some(1),
+        'C' => Some(2),
+        'D' => Some(3),
+        'E' => Some(4),
+        'F' => Some(5),
+        'G' => Some(6),
+        'H' => Some(7),
+        'I' => Some(8),
+        'J' => Some(9),
+        'K' => Some(10),
+        'L' => Some(11),
+        'M' => Some(12),
+        'N' => Some(13),
+        'O' => Some(14),
+        'P' => Some(15),
+        'Q' => Some(16),
+        'R' => Some(17),
+        'S' => Some(18),
+        'T' => Some(19),
+        'U' => Some(20),
+        'V' => Some(21),
+        'W' => Some(22),
+        'X' => Some(23),
+        'Y' => Some(24),
+        'Z' => Some(25),
+        'a' => Some(26),
+        'b' => Some(27),
+        'c' => Some(28),
+        'd' => Some(29),
+        'e' => Some(30),
+        'f' => Some(31),
+        'g' => Some(32),
+        'h' => Some(33),
+        'i' => Some(34),
+        'j' => Some(35),
+        'k' => Some(36),
+        'l' => Some(37),
+        'm' => Some(38),
+        'n' => Some(39),
+        'o' => Some(40),
+        'p' => Some(41),
+        'q' => Some(42),
+        'r' => Some(43),
+        's' => Some(44),
+        't' => Some(45),
+        'u' => Some(46),
+        'v' => Some(47),
+        'w' => Some(48),
+        'x' => Some(49),
+        'y' => Some(50),
+        'z' => Some(51),
+        '0' => Some(52),
+        '1' => Some(53),
+        '2' => Some(54),
+        '3' => Some(55),
+        '4' => Some(56),
+        '5' => Some(57),
+        '6' => Some(58),
+        '7' => Some(59),
+        '8' => Some(60),
+        '9' => Some(61),
+        '+' => Some(62),
+        '/' => Some(63),
+        _ => None,
     }
 }
 
@@ -150,15 +150,46 @@ pub fn big_to_base64(big : BigUint) -> String {
 
     while x > Zero::zero() {
         let chr : u8 = x.rem(&sixtyfour).to_u8().unwrap();
-        out.push_char(num_to_base64(chr));
+        let s = match u8_to_base64(chr) {
+            Some(e) => e,
+            None => fail!("Couldn't convert {} to bases64", chr)
+        };
+        out.push_char(s);
         x = x >> 6;
     }
 
     return out.as_slice().chars().rev().collect();
 }
 
+pub fn chunk_to_bytes(s: Vec<char>) -> Vec<u8> {
+    //Convert base64 chars into a vec of bytes, skipping invalid or padded base64 chars
+    let mut nums = Vec::new();
+    for i in s.iter().map(|x| base64_to_u8(*x)) {
+        match i {
+            Some(e) => nums.push(e),
+            None => ()
+        }
+    }
+
+    //Combine the base64 bytes into 8-bit bytes
+    let mut out = Vec::new();
+    for i in range(0, nums.len() - 1 ) {
+        let x = 2*(i+1);
+        let y = 2*(2-i);
+        let elem = (nums[i] << x ) + (nums[i+1] >> y);
+        out.push(elem);
+    }
+    return out;
+}
+    
 #[test]
 fn test_hex_to_base64() {
     let x = Buff::unhex("49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d");
-    assert!(x.base64() == "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t".to_string());
+    assert_eq!(x.base64().as_slice(), "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t");
+}
+
+#[test]
+fn test_base64_to_hex() {
+    let buf = Buff::from_base64("SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t");
+    assert_eq!(buf.hex().as_slice(), "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d");
 }
