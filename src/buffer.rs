@@ -134,3 +134,10 @@ impl PartialEq for Buff {
         self.to_big() == rhs.to_big()
     }
 }
+
+#[test]
+fn test_hex() {
+    let buf = Buff::unhex("0deadbeef010");
+    let buf2 = Buff::unhex(buf.hex().as_slice());
+    assert_eq!(buf, buf2);
+}
